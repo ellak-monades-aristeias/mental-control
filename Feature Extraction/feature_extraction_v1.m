@@ -47,6 +47,7 @@ function [feature_vector] = feature_extraction_v1(signal)
 
 %----------------------------------------------------------------------------------------------------------------------------------------------
 % Features
+% Χαρακτηριστικά
 %----------------------------------------------------------------------------------------------------------------------------------------------
 %    
 %     -- Signal Energy, sum of all channels (STFT signal)
@@ -80,14 +81,47 @@ function [feature_vector] = feature_extraction_v1(signal)
 %     f_CZ_x = signal energy from channel CZ
 %     f_PZ_x = signal energy from channel PZ
 %
+%     -- Ενέργεια του σήματος, άθροισμα επιμέρους συχνοτήτων από όλα τα κανάλια.
+%     f1 = άθροισμα συχνοτήτων σήματος 1-3 Hz 
+%     f2 = άθροισμα συχνοτήτων σήματος 4-7 Hz
+%     f3 = άθροισμα συχνοτήτων σήματος 8-13 Hz
+%     f4 = άθροισμα συχνοτήτων σήματος 14-20 Hz
+%     f5 = άθροισμα συχνοτήτων σήματος 21-30 Hz
+%     f6 = άθροισμα συχνοτήτων σήματος 31-45 Hz
+%     f7 = άθροισμα συχνοτήτων σήματος 55-95 Hz
+%     f8 = άθροισμα συχνοτήτων σήματος 105-145 Hz
+% 
+%     -- Ενέργεια του σήματος, άθροισμα επιμέρους συχνοτήτων ανά κανάλι EEG  
+%     f_FP1_x = επιμέρους άθροισμα συχνοτήτων σήματος για το κανάλι FP1
+%     f_FP2_x = επιμέρους άθροισμα συχνοτήτων σήματος για το κανάλι FP2
+%     f_F3_x = επιμέρους άθροισμα συχνοτήτων σήματος για το κανάλι F3
+%     f_F4_x = επιμέρους άθροισμα συχνοτήτων σήματος για το κανάλι F4
+%     f_C3_x = επιμέρους άθροισμα συχνοτήτων σήματος για το κανάλι C3
+%     f_C4_x = επιμέρους άθροισμα συχνοτήτων σήματος για το κανάλι C4
+%     f_P3_x = επιμέρους άθροισμα συχνοτήτων σήματος για το κανάλι P3
+%     f_P4_x = επιμέρους άθροισμα συχνοτήτων σήματος για το κανάλι P4
+%     f_O1_x = επιμέρους άθροισμα συχνοτήτων σήματος για το κανάλι O1
+%     f_O2_x = επιμέρους άθροισμα συχνοτήτων σήματος για το κανάλι O2
+%     f_F7_x = επιμέρους άθροισμα συχνοτήτων σήματος για το κανάλι F7
+%     f_F8_x = επιμέρους άθροισμα συχνοτήτων σήματος για το κανάλι F8
+%     f_T3_x = επιμέρους άθροισμα συχνοτήτων σήματος για το κανάλι T3
+%     f_T4_x = επιμέρους άθροισμα συχνοτήτων σήματος για το κανάλι T4
+%     f_T5_x = επιμέρους άθροισμα συχνοτήτων σήματος για το κανάλι T5
+%     f_T6_x = επιμέρους άθροισμα συχνοτήτων σήματος για το κανάλι T6
+%     f_FZ_x = επιμέρους άθροισμα συχνοτήτων σήματος για το κανάλι FZ
+%     f_CZ_x = επιμέρους άθροισμα συχνοτήτων σήματος για το κανάλι CZ
+%     f_PZ_x = επιμέρους άθροισμα συχνοτήτων σήματος για το κανάλι PZ
+%
 %----------------------------------------------------------------------------------------------------------------------------------------------
 
-    % Define experiment parameters
+%   Define experiment parameters.
+%	Καθορσισμός βασικών παραμέτρων για την εξαγωγή των χαρακτηριστικών.
     Fs = 500;
     overlap = 0;
     
 %----------------------------------------------------------------------------------------------------------------------------------------------
-% Short-Time Fourier Transform (using spectrogram function)
+% Short-Time Fourier Transform (using spectrogram function).
+% Ανάλυση σήματος με τη χρήση του Short-Time μετασχηματισμού Fourier (συνάρτηση spectrogram). 
 %----------------------------------------------------------------------------------------------------------------------------------------------
 
     sum_energy = 0;
@@ -101,6 +135,7 @@ function [feature_vector] = feature_extraction_v1(signal)
     
 %----------------------------------------------------------------------------------------------------------------------------------------------
 % Signal energy in frequency bands from all channels.
+% Άθροισμα ενέργειας σήματος σε επιμέρους συχνότητες από όλα τα διαθέσιμα κανάλια.
 %----------------------------------------------------------------------------------------------------------------------------------------------
 
     f1 = sum(sum_energy(2:4,:));
@@ -115,10 +150,11 @@ function [feature_vector] = feature_extraction_v1(signal)
     
 %----------------------------------------------------------------------------------------------------------------------------------------------
 % Signal energy in frequency bands per channel.
-% Only electrodes corresponding to motor-related regions of the brain are selected.
+% Ενέργεια του σήματος σε επιμέρους συχνότητες ξεχωριστά για το κάθε ένα από τα διαθέσιμα κανάλια.
 %----------------------------------------------------------------------------------------------------------------------------------------------
     
     % FP1 channel
+	% Κανάλι FP1
     f_FP1_1 = sum(channel_energy(2:4,1));
     f_FP1_2 = sum(channel_energy(5:8,1));
     f_FP1_3 = sum(channel_energy(9:14,1));
@@ -126,13 +162,15 @@ function [feature_vector] = feature_extraction_v1(signal)
     f_FP1_5 = sum(channel_energy(22:31,1));
     
     % FP1 channel
-    f_FP2_1 = sum(channel_energy(2:4,2));
+    % Κανάλι FP2
+	f_FP2_1 = sum(channel_energy(2:4,2));
     f_FP2_2 = sum(channel_energy(5:8,2));
     f_FP2_3 = sum(channel_energy(9:14,2));
     f_FP2_4 = sum(channel_energy(15:21,2));
     f_FP2_5 = sum(channel_energy(22:31,2));
     
     % F3 channel
+	% Κανάλι F3
     f_F3_1 = sum(channel_energy(2:4,3));
     f_F3_2 = sum(channel_energy(5:8,3));
     f_F3_3 = sum(channel_energy(9:14,3));
@@ -140,6 +178,7 @@ function [feature_vector] = feature_extraction_v1(signal)
     f_F3_5 = sum(channel_energy(22:31,3));
     
     % F4 channel
+	% Κανάλι F4
     f_F4_1 = sum(channel_energy(2:4,4));
     f_F4_2 = sum(channel_energy(5:8,4));
     f_F4_3 = sum(channel_energy(9:14,4));
@@ -147,6 +186,7 @@ function [feature_vector] = feature_extraction_v1(signal)
     f_F4_5 = sum(channel_energy(22:31,4));
     
     % C3 channel
+	% Κανάλι C3
     f_C3_1 = sum(channel_energy(2:4,5));
     f_C3_2 = sum(channel_energy(5:8,5));
     f_C3_3 = sum(channel_energy(9:14,5));
@@ -154,6 +194,7 @@ function [feature_vector] = feature_extraction_v1(signal)
     f_C3_5 = sum(channel_energy(22:31,5));
     
     % C4 channel
+	% Κανάλι C4
     f_C4_1 = sum(channel_energy(2:4,6));
     f_C4_2 = sum(channel_energy(5:8,6));
     f_C4_3 = sum(channel_energy(9:14,6));
@@ -161,6 +202,7 @@ function [feature_vector] = feature_extraction_v1(signal)
     f_C4_5 = sum(channel_energy(22:31,6));
     
     % P3 channel
+	% Κανάλι P3
     f_P3_1 = sum(channel_energy(2:4,7));
     f_P3_2 = sum(channel_energy(5:8,7));
     f_P3_3 = sum(channel_energy(9:14,7));
@@ -168,6 +210,7 @@ function [feature_vector] = feature_extraction_v1(signal)
     f_P3_5 = sum(channel_energy(22:31,7));
     
     % P4 channel
+	% Κανάλι P4
     f_P4_1 = sum(channel_energy(2:4,8));
     f_P4_2 = sum(channel_energy(5:8,8));
     f_P4_3 = sum(channel_energy(9:14,8));
@@ -175,6 +218,7 @@ function [feature_vector] = feature_extraction_v1(signal)
     f_P4_5 = sum(channel_energy(22:31,8));
     
     % O1 channel
+	% Κανάλι O1
     f_O1_1 = sum(channel_energy(2:4,9));
     f_O1_2 = sum(channel_energy(5:8,9));
     f_O1_3 = sum(channel_energy(9:14,9));
@@ -182,6 +226,7 @@ function [feature_vector] = feature_extraction_v1(signal)
     f_O1_5 = sum(channel_energy(22:31,9));
     
     % O2 channel
+	% Κανάλι O2
     f_O2_1 = sum(channel_energy(2:4,10));
     f_O2_2 = sum(channel_energy(5:8,10));
     f_O2_3 = sum(channel_energy(9:14,10));
@@ -189,6 +234,7 @@ function [feature_vector] = feature_extraction_v1(signal)
     f_O2_5 = sum(channel_energy(22:31,10));
     
     % F7 channel
+	% Κανάλι F7
     f_F7_1 = sum(channel_energy(2:4,11));
     f_F7_2 = sum(channel_energy(5:8,11));
     f_F7_3 = sum(channel_energy(9:14,11));
@@ -196,6 +242,7 @@ function [feature_vector] = feature_extraction_v1(signal)
     f_F7_5 = sum(channel_energy(22:31,11));
     
     % F8 channel
+	% Κανάλι F8
     f_F8_1 = sum(channel_energy(2:4,12));
     f_F8_2 = sum(channel_energy(5:8,12));
     f_F8_3 = sum(channel_energy(9:14,12));
@@ -203,6 +250,7 @@ function [feature_vector] = feature_extraction_v1(signal)
     f_F8_5 = sum(channel_energy(22:31,12));
     
     % T3 channel
+	% Κανάλι T3
     f_T3_1 = sum(channel_energy(2:4,13));
     f_T3_2 = sum(channel_energy(5:8,13));
     f_T3_3 = sum(channel_energy(9:14,13));
@@ -210,6 +258,7 @@ function [feature_vector] = feature_extraction_v1(signal)
     f_T3_5 = sum(channel_energy(22:31,13));
     
     % T4 channel
+	% Κανάλι T4
     f_T4_1 = sum(channel_energy(2:4,14));
     f_T4_2 = sum(channel_energy(5:8,14));
     f_T4_3 = sum(channel_energy(9:14,14));
@@ -217,6 +266,7 @@ function [feature_vector] = feature_extraction_v1(signal)
     f_T4_5 = sum(channel_energy(22:31,14));
     
     % T5 channel
+	% Κανάλι T5
     f_T5_1 = sum(channel_energy(2:4,15));
     f_T5_2 = sum(channel_energy(5:8,15));
     f_T5_3 = sum(channel_energy(9:14,15));
@@ -224,6 +274,7 @@ function [feature_vector] = feature_extraction_v1(signal)
     f_T5_5 = sum(channel_energy(22:31,15));
     
     % T6 channel
+	% Κανάλι T6
     f_T6_1 = sum(channel_energy(2:4,16));
     f_T6_2 = sum(channel_energy(5:8,16));
     f_T6_3 = sum(channel_energy(9:14,16));
@@ -231,6 +282,7 @@ function [feature_vector] = feature_extraction_v1(signal)
     f_T6_5 = sum(channel_energy(22:31,16));
     
     % Fz channel
+	% Κανάλι Fz
     f_FZ_1 = sum(channel_energy(2:4,17));
     f_FZ_2 = sum(channel_energy(5:8,17));
     f_FZ_3 = sum(channel_energy(9:14,17));
@@ -238,6 +290,7 @@ function [feature_vector] = feature_extraction_v1(signal)
     f_FZ_5 = sum(channel_energy(22:31,17));
         
     % Cz channel
+	% Κανάλι Cz
     f_CZ_1 = sum(channel_energy(2:4,18));
     f_CZ_2 = sum(channel_energy(5:8,18));
     f_CZ_3 = sum(channel_energy(9:14,18));
@@ -245,6 +298,7 @@ function [feature_vector] = feature_extraction_v1(signal)
     f_CZ_5 = sum(channel_energy(22:31,18));
         
     % Pz channel
+	% Κανάλι Pz
     f_PZ_1 = sum(channel_energy(2:4,19));
     f_PZ_2 = sum(channel_energy(5:8,19));
     f_PZ_3 = sum(channel_energy(9:14,19));
@@ -253,6 +307,7 @@ function [feature_vector] = feature_extraction_v1(signal)
 
 %----------------------------------------------------------------------------------------------------------------------------------------------
 %   Return feature vector
+%   Η συνάρτηση επιστρέφει τον πίνακα των υπολογισθέντων χαρακτηριστικών.
 %----------------------------------------------------------------------------------------------------------------------------------------------
     
     feature_vector = [f1,f2,f3,f4,f5,f6,f7,f8, f_FP1_1,f_FP1_2,f_FP1_3,f_FP1_4,f_FP1_5, ...

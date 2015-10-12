@@ -46,6 +46,7 @@ function [feature_vector] = feature_extraction_v2(signal)
 
 %----------------------------------------------------------------------------------------------------------------------------------------------
 % Features
+% Χαρακτηριστικά
 %----------------------------------------------------------------------------------------------------------------------------------------------
 %
 %      -- Statistical Moments
@@ -55,55 +56,83 @@ function [feature_vector] = feature_extraction_v2(signal)
 %      f4 = skewness(signal) x 19 Channels
 %      f5 = kurtosis(signal) x 19 Channels
 %
+%      -- Στατιστικά χαρακτηριστικά σήματος
+%      f1 = μέση τιμή σήματος x 19 κανάλια
+%      f2 = τυπική απόκλιση σήματος x 19 κανάλια
+%      f3 = διακύμανση σήματος x 19 κανάλια
+%      f4 = ασυμμετρία σήματος x 19 κανάλια
+%      f5 = οξύτητα σήματος x 19 κανάλια
+%
 %----------------------------------------------------------------------------------------------------------------------------------------------
 
 %----------------------------------------------------------------------------------------------------------------------------------------------
 % Features are extracted per channel.
 % No electrodes are omitted.
+% Τα χαρακτηριστικά εξάγονται ανά κανάλι.
+% Κανένα ηλεκτρόδιο δεν παραλείπεται.
 %----------------------------------------------------------------------------------------------------------------------------------------------
  
-    % Calculate Mean Value
+%   Calculate Mean Value.
+%   Υπολογισμός μέσης τιμής.
     f1=[];
     for i=1:size(signal,1)
         f1 = [f1 , mean(signal(i,:))];
     end
-    % f1 = mean[ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ]
+%   f1 containes the mean value of every channel in the following order:
+%   [ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ].
+%   Η μεταβλητή f1 είναι ένας πίνακας που περιέχει τη μετρούμενη μέση τιμή από όλα τα κανάλια με την ακόλουθη σειρά: 
+%   [ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ].    
     
-    
-    % Calculate Standard Deviation
+%   Calculate Standard Deviation.
+%   Υπολογισμός τυπικής απόκλισης.
     f2=[];
     for i=1:size(signal,1)
         f2 = [f2 , std(signal(i,:))];
     end
-    % f2 = std[ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ]
+%   f2 containes the std value of every channel in the following order:
+%   [ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ].
+%   Η μεταβλητή f2 είναι ένας πίνακας που περιέχει τη μετρούμενη τυπική απόκλιση από όλα τα κανάλια με την ακόλουθη σειρά: 
+%   [ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ].        
     
-    
-    % Calculate Variance
+%   Calculate Variance.
+%   Υπολογισμός διακύμανσης.
     f3=[];
     for i=1:size(signal,1)
         f3 = [f3 , var(signal(i,:))];
     end
-    % f3 = var[ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ]
+%   f3 containes the variance of every channel in the following order:
+%   [ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ].
+%   Η μεταβλητή f3 είναι ένας πίνακας που περιέχει τη μετρούμενη διακύμανση από όλα τα κανάλια με την ακόλουθη σειρά: 
+%   [ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ].        
     
     
-    % Calculate Skewness
+%   Calculate Skewness.
+%   Υπολογισμός ασυμμετρίας.
     f4=[];
     for i=1:size(signal,1)
         f4 = [f4 , skewness(signal(i,:))];
     end
-    % f4 = skewness[ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ]
+%   f4 containes the skewness of every channel in the following order:
+%   [ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ].
+%   Η μεταβλητή f4 είναι ένας πίνακας που περιέχει τη μετρούμενη ασυμμετρία από όλα τα κανάλια με την ακόλουθη σειρά: 
+%   [ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ].        
     
     
-    % Calculate kurtosis
+%   Calculate kurtosis.
+%   Υπολογισμός οξύτητας.
     f5=[];
     for i=1:size(signal,1)
         f5 = [f5 , kurtosis(signal(i,:))];
     end    
-    % f5 = kurtosis[ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ]
+%   f5 containes the kurtosis of every channel in the following order:
+%   [ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ].
+%   Η μεταβλητή f5 είναι ένας πίνακας που περιέχει τη μετρούμενη οξύτητα από όλα τα κανάλια με την ακόλουθη σειρά: 
+%   [ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ].        
     
     
 %----------------------------------------------------------------------------------------------------------------------------------------------
 %   Return feature vector
+%   Η συνάρτηση επιστρέφει τον πίνακα των υπολογισθέντων χαρακτηριστικών.
 %----------------------------------------------------------------------------------------------------------------------------------------------
       
     feature_vector = [ f1 , f2 , f3 , f4 , f5 ];

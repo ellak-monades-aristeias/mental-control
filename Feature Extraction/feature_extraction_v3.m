@@ -46,6 +46,7 @@ function [feature_vector] = feature_extraction_v3(signal)
 
 %----------------------------------------------------------------------------------------------------------------------------------------------
 % Features
+% Χαρακτηριστικά
 %----------------------------------------------------------------------------------------------------------------------------------------------
 %
 %     -- Time domain parameters
@@ -54,23 +55,37 @@ function [feature_vector] = feature_extraction_v3(signal)
 %     f3 = Hjorth complexity(signal) x 19 Channels
 %     f4 = Hurst Exponent(signal) x 19 Channels
 %
+%     -- Χαρακτηριστικά στο πεδίο του χρόνου
+%     f1 = Αλλαγή από θετικές σε αρνητικές τιμές και το αντίστροφο x 19 κανάλια
+%     f2 = Δεύτερη παράμετρος του Hjorth x 19 κανάλια
+%     f3 = Τρίτη παράμετρος του Hjorth  x 19 κανάλια
+%     f4 = Εκθετική παράμετρος του Hurst x 19 κανάλια
+%
+
 %----------------------------------------------------------------------------------------------------------------------------------------------
 
 %----------------------------------------------------------------------------------------------------------------------------------------------
 % Features are extracted per channel.
 % No electrodes are omitted.
+% Τα χαρακτηριστικά εξάγονται ανά κανάλι.
+% Κανένα ηλεκτρόδιο δεν παραλείπεται.
 %----------------------------------------------------------------------------------------------------------------------------------------------
  
-    % Calculate number of zero crossings
+%   Calculate number of zero crossings.
+%   Υπολογισμός αλλαγών από θετικές σε αρνητικές τιμές και το αντίστροφο.
     f1=[];
     for i=1:size(signal,1)
         zero_cross = find(diff((signal(i,:))>0)~=0);
         f1 = [ f1 , length(zero_cross) ];
     end
-    % f1 = zero crossings[ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ]
+%   f1 containes the zero-crossings value of every channel in the following order:
+%   [ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ].
+%   Η μεταβλητή f1 είναι ένας πίνακας που περιέχει τη μετρούμενη τιμή των αλλαγών από θετικές σε αρνητικές τιμές και το αντίστροφο 
+%   από όλα τα κανάλια με την ακόλουθη σειρά: 
+%   [ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ].        
     
-    
-    % Calculate Hjorth parameters
+%   Calculate Hjorth parameters.
+%   Υπολογισμός των παραμέτρων του Hjorth.
     f2=[];
     f3=[];
     mobility=0;
@@ -80,19 +95,26 @@ function [feature_vector] = feature_extraction_v3(signal)
         f2 = [ f2 , mobility ];
         f3 = [ f3 , complexity ];
     end
-    % f2 = mobility[ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ]
-    % f3 = complexity[ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ]
+%   f2 containes the Hjorth mobility value and f3 the Hjorth complexity value of every channel in the following order:
+%   [ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ].
+%   Η μεταβλητές f2 και f3 είναι πίνακες που περιέχουν τις μετρούμενες τιμές των παραμέτρων του Hjorth από όλα τα κανάλια με την ακόλουθη σειρά: 
+%   [ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ].
     
-    
-    % Calculate Hurst Exponent
+%   Calculate Hurst Exponent.
+%   Υπολογισμός της παραμέτρου του Hurst.
     f4=[];
     for i=1:size(signal,1)
         f4 = [ f4 , HurstExponent((signal(i,:))') ];
     end
     % f4 = Hurst Exponent[ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ]
+%   f4 containes the value of Hurst Exponent of every channel in the following order:
+%   [ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ].
+%   Η μεταβλητή f4 είναι ένας πίνακας που περιέχει τη μετρούμενη τιμή της παραμέτρου του Hurst από όλα τα κανάλια με την ακόλουθη σειρά: 
+%   [ FP1, FP2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, FZ, CZ, PZ ].        
     
 %----------------------------------------------------------------------------------------------------------------------------------------------
-%   Return feature vector
+%   Return feature vector.
+%   Η συνάρτηση επιστρέφει τον πίνακα των υπολογισθέντων χαρακτηριστικών.
 %----------------------------------------------------------------------------------------------------------------------------------------------
     
     feature_vector = [ f1 , f2 , f3 , f4 ];
