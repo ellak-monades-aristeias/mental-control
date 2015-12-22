@@ -4,7 +4,19 @@
 Δημιουργία συστήματος διασύνδεσης ανθρώπου-μηχανής για τη εκτέλεση «ψυχικών
 εντολών» μέσα από το Ηλεκτροεγκεφαλογράφημα (ΗΕΓ).
 
- 
+
+Overview
+========
+"Mental-Control" is an open source, Matlab based project, which focuses on the real-time
+analysis of electroencephalogram (EEG) data. The purpose of the analysis is to find discrete
+behaviors in the EEG signal, produced by performing specific functions which the brain can
+repeat at will (such as the movement of the hands). Once correctly identified, the purpose of
+these brain functions is to be converted into motion commands of a target point, offering
+new possibilities of human-computer interaction. This could be extremelly beneficial for 
+disabled people. Once the basic mechanism of converting thoughts into electronic commands 
+through EEG analysis is optimized, the potential uses of the technology are virtually
+unlimited. The proposed system is based on open EEG data freely available on the internet.
+
 
 ΑΝΤΙΚΕΙΜΕΝΟ ΕΡΓΟΥ
 =================
